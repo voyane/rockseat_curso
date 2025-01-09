@@ -15,10 +15,11 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(120), nullable = False)
     price = db.Column(db.Float, nullable = False)
-    description = db.Cloumn(db.Text, nullable = True)
+    description = db.Column(db.Text, nullable = True)
 
 
-#flask shell pega todas as tabelas
+#db.create_all().pega todas as modelagens e transforma em tabelas
+#session e a propriedade de armazena a conexao. commit salva as mudancas
 # Definir uma rota raiz (página inicial) e a função que será executada ao requisitar
 @app.route('/') 
 def hello_world(): #definir a funcao
