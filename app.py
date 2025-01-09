@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__) 
 
 #passar a configuracao do caminho de onde fica a base de dados
-app.config['SQLALCHEMY_URI'] = 'sqlite:///ecommerce.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce.db'
 #iniciar a conexao com a bd
 db = SQLAlchemy(app)
 
