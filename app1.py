@@ -1,5 +1,5 @@
 # Importação
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 #Criar a instancia do aplicativo flask
@@ -26,12 +26,33 @@ class Product(db.Model):
 def add_product():
     data = request.json
 #criar produto
-    produto = Product(name = data["name"] , price = data["price"], description = data.get("description", ""))
-    db.session.add(produto)    
-    db.session.commit()
-    return "Produto cadastrado com sucesso"
+    if "name" in data and "price" in data:
+        produto = Product(name = data["name"] , price = data["price"], description = data.get("description", ""))
+        db.session.add(produto)    
+        db.session.commit()
+        return jsonify({"mensagem": "Produto cadastrado com sucesso."})
+    return jsonify({"message": "Dados do produto invalidos."}), 400
 
-@app1.route('/') 
+
+@app1.route('/api/products/delete/<int:produto_id>', methods = ["DELETE"])
+def delete_produto(produto_id):
+#Recuperar o prpduto da BD
+    produto = Product.query.get(produto_id)
+#Verificar se o produto existe
+    if produto:
+#se existir, apaga o produto da BD
+        db.session.delete(produto)
+        db.session.commit()
+        return jsonify({"mensagem": "Produto apagado com sucesso."})
+#se nao, retorna o erro 400 not found
+    return jsonify({"mensagem": "Erro ao remover o produto."}), 400 
+
+
+
+
+
+
+@app1.route("/")
 def hello_world(): #definir a funcao
     return 'Hello World'
 
