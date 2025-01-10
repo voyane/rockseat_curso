@@ -33,7 +33,7 @@ def add_product():
         return jsonify({"mensagem": "Produto cadastrado com sucesso."})
     return jsonify({"message": "Dados do produto invalidos."}), 400
 
-
+#Apagar o produto
 @app1.route('/api/products/delete/<int:produto_id>', methods = ["DELETE"])
 def delete_produto(produto_id):
 #Recuperar o prpduto da BD
@@ -45,11 +45,20 @@ def delete_produto(produto_id):
         db.session.commit()
         return jsonify({"mensagem": "Produto apagado com sucesso."})
 #se nao, retorna o erro 400 not found
-    return jsonify({"mensagem": "Erro ao remover o produto."}), 400 
+    return jsonify({"mensagem": "Erro ao remover o produto."}), 404 
 
-
-
-
+#Recuperar os detalhes do produtp
+@app1.route('/api/products/<int:produto_id>', methods = ["GET"])
+def get_produto_details(produto_id):
+    produto = Product.query.get(produto_id)
+    if produto:
+        return jsonify({
+             "id": produto.id,
+             "name": produto.name,
+             "price": produto.price,
+             "description": produto.description       
+        })
+    return jsonify({"mensagem": "Produto nao encotrado."}), 404
 
 
 @app1.route("/")
