@@ -12,10 +12,10 @@ db = SQLAlchemy(app1)
 
 #Modelagem
 class Product(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(120), nullable = False)
-    price = db.Column(db.Float, nullable = False)
-    description = db.Column(db.Text, nullable = True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    description = db.Column(db.Text, nullable=True)
 
 
 #db.create_all().pega todas as modelagens e transforma em tabelas
@@ -25,7 +25,11 @@ class Product(db.Model):
 @app1.route('/api/products/add', methods = ["POST"])
 def add_product():
     data = request.json
-    return data
+#criar produto
+    produto = Product(name = data["name"] , price = data["price"], description = data.get("description", ""))
+    db.session.add(produto)    
+    db.session.commit()
+    return "Produto cadastrado com sucesso"
 
 @app1.route('/') 
 def hello_world(): #definir a funcao
