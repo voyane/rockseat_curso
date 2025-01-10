@@ -1,6 +1,7 @@
 # Importação
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 #Criar a instancia do aplicativo flask
 app1 = Flask(__name__) 
@@ -9,6 +10,7 @@ app1 = Flask(__name__)
 app1.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce.db'
 #iniciar a conexao com a bd
 db = SQLAlchemy(app1)
+CORS(app1)
 
 #Modelagem
 class Product(db.Model):
@@ -83,10 +85,10 @@ def update_produto(produto_id):
 
 #Listar
 @app1.route("/api/products", methods = ["GET"])
-def get_produto():
-    produto = Product.query.all()
+def get_produtos():
+    produtos = Product.query.all()
     lista_produto = []
-    for prod in produto:
+    for produto in produtos:
         dados_produto = {
             "id": produto.id,
              "name": produto.name,
@@ -96,6 +98,8 @@ def get_produto():
         lista_produto.append(dados_produto)
 
     return jsonify(lista_produto)
+
+
 
 @app1.route("/")
 def hello_world(): #definir a funcao
