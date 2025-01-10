@@ -77,7 +77,25 @@ def update_produto(produto_id):
     if "description" in data:
         produto.description = data["description"]
 
+    db.session.commit()
     return jsonify({"mensagem": "Produto actualizado com sucesso."})
+
+
+#Listar
+@app1.route("/api/products", methods = ["GET"])
+def get_produto():
+    produto = Product.query.all()
+    lista_produto = []
+    for prod in produto:
+        dados_produto = {
+            "id": produto.id,
+             "name": produto.name,
+             "price": produto.price,
+             "description": produto.description
+        }
+        lista_produto.append(dados_produto)
+
+    return jsonify(lista_produto)
 
 @app1.route("/")
 def hello_world(): #definir a funcao
