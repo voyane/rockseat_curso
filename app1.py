@@ -3,12 +3,12 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 
 #Criar a instancia do aplicativo flask
-app = Flask(__name__) 
+app1 = Flask(__name__) 
 
 #passar a configuracao do caminho de onde fica a base de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce.db'
+app1.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce.db'
 #iniciar a conexao com a bd
-db = SQLAlchemy(app)
+db = SQLAlchemy(app1)
 
 #Modelagem
 class Product(db.Model):
@@ -22,14 +22,14 @@ class Product(db.Model):
 #session e a propriedade de armazena a conexao. commit salva as mudancas
 # Definir uma rota raiz (página inicial) e a função que será executada ao requisitar
 
-@app.route('/api/products/add', methods = ["POST"])
+@app1.route('/api/products/add', methods = ["POST"])
 def add_product():
     data = request.json
     return data
 
-@app.route('/') 
+@app1.route('/') 
 def hello_world(): #definir a funcao
     return 'Hello World'
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app1.run(debug=True)
