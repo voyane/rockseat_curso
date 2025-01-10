@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_login import UserMixin
 
 #Criar a instancia do aplicativo flask
 app1 = Flask(__name__) 
@@ -11,6 +12,20 @@ app1.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce.db'
 #iniciar a conexao com a bd
 db = SQLAlchemy(app1)
 CORS(app1)
+
+#USER (id, username, password)
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(20), nullable = False, unique = True)
+    password = db.Column(db.String(20), nullable = True)
+
+
+
+
+
+
+
+
 
 #Modelagem
 class Product(db.Model):
